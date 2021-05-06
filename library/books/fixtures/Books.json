@@ -1,0 +1,16 @@
+[
+    {
+        "model": "books.Author",
+        "pk": 1,
+        "fields": {
+            "name": "Douglas Adams"
+        }
+    },
+    {
+        "model": "books.Author",
+        "pk": 2,
+        "fields": {
+            "name": "Alexander McCall Smith"
+        }
+    }
+]
