@@ -3,6 +3,7 @@
 
 {% block content %}
 <div id="new-book">
+<h3>Feel free to add a book to our collection</h3>
 <form method="POST">
     {% csrf_token %} <!-- Django forms will not function without this additional security token-->
     {{ form.as_p }} <!-- .as_p is optional for formatting purposes -->
