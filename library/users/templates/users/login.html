@@ -1,0 +1,13 @@
+{% extends "books/base.html" %}
+
+{% block content %}
+
+    <form method="POST">
+        {% csrf_token %} <!-- Django forms will not function without this additional security token-->
+        {{ form.as_p }} <!-- .as_p is optional for formatting purposes -->
+        <input type="submit" value="Login">
+    </form>
+    <p>Not yet a member? Sign up <a href="{% url 'register' %}">here</a></p>
+
+
+{% endblock content %}
