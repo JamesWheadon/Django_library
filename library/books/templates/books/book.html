@@ -1,0 +1,29 @@
+{% extends "books/base.html" %}
+
+
+{% block content %}
+    <h2>{{book.title}}</h2>
+    <h3>{{book.author.name}}</h3>
+    {% if book.borrower and book.borrower != user %}
+    <p>This book has been borrowed by {{book.borrower.first_name}} already!</p>
+   
+
+    {% else %}
+    <form method="POST">
+        {% csrf_token %} <!-- Django forms will not function without this additional security token-->
+        {{ form.as_p }} <!-- .as_p is optional for formatting purposes -->
+        {% if book.borrower%}
+        <input type="submit" value="Return book">
+        {% else  %}
+        <input type="submit" value="Borrow book">
+        {% endif %}
+
+    </form>
+    
+    {% endif %}
+
+
+
+
+
+{% endblock content %}

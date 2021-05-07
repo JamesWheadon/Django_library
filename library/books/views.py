@@ -1,6 +1,11 @@
 from books.models import Author, Book
 from django.http import HttpResponse, Http404
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import NewBookForm, BorrowBookForm
+from django.contrib import messages
+
+
 
 # Create your views here.
 """books = [
@@ -19,9 +24,44 @@ def index(req):
     data = { 'books': Book.objects.all() }
     return render(req, 'books/home.html', data)
 
-def show(req, id):
-    book = get_object_or_404(Book, pk=id)
-    return HttpResponse(f"<h3>Author: {book.author.name}</h3><h3>Title: {book.title}</h3>")
+@login_required
+def show(req, book_id):
+    book = get_object_or_404(Book, pk=book_id)
+    if req.method == 'POST':
+        form = BorrowBookForm(req.POST)
+        if form.is_valid():
+            if book.borrower == None:
+                book.borrower = req.user
+            else:
+                book.borrower = None 
+            book.save()
+            return redirect("books-show", book_id=book_id)
+    else:
+        form = BorrowBookForm(initial={'borrower': req.user})
+        data = { "book": book,
+                "form": form
+                
+        }
+    return render(req, 'books/book.html', data)
+
+
+
+
+
+def new_book(req):
+    if req.method == 'POST':
+        form = NewBookForm(req.POST)
+        if form.is_valid():
+            book = form.save()
+            book_id = book.id
+            title = form.cleaned_data.get('title')
+            messages.success(req, f'{title} has been added to the library!')
+            return redirect('books-show', book_id=book_id)
+    else:
+        form = NewBookForm()
+    data = {'form': form}
+    return render(req, 'books/new.html', data)
+
 
 def not_found_404(req, exception):
     return HttpResponse(f"<h1>Invalid Page 404</h1>")
