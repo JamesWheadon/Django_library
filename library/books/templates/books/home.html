@@ -1,18 +1,13 @@
 {% extends "books/base.html" %}
 
 {% block content %}
-    <nav>
-        <ul>
-            <li>Home</li>
-            <li>Login</li>
-        </ul>
-    </nav>
     <h1>Welcome to the Library!</h1>
-    <h4>Here are all our books!</h4>
-    <ul>
+    <h4>Here are all our books! </h4>
+    <p>Click on a book to see if it is available to borrow</p>
+    <ul id='booklist'>
         {% for book in books %}
             <li>
-                {{ book.title }}
+                <a href="{% url 'books-show' book_id=book.id %}">{{ book.title }}</a>
             </li>
         {% endfor %}
     </ul>

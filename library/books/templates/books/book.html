@@ -2,6 +2,7 @@
 
 
 {% block content %}
+<div id="book-content">
     <h2>{{book.title}}</h2>
     <h3>{{book.author.name}}</h3>
     {% if book.borrower and book.borrower != user %}
@@ -19,10 +20,10 @@
         {% endif %}
 
     </form>
-    
+
     {% endif %}
 
-
+</div>
 
 
 

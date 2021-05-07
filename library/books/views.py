@@ -47,7 +47,7 @@ def show(req, book_id):
 
 
 
-
+@login_required
 def new_book(req):
     if req.method == 'POST':
         form = NewBookForm(req.POST)
